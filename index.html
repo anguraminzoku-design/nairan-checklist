@@ -7,21 +7,17 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:14px;line-height:1.6}
-/* ヘッダー */
 .app-header{background:#e65100;padding:12px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
 .app-title{font-size:16px;font-weight:800;color:#fff}
 .prop-select-wrap{display:flex;align-items:center;gap:6px}
 #prop-select{border:none;border-radius:8px;padding:5px 8px;font-size:12px;font-weight:700;background:#fff;color:#e65100;max-width:130px}
 .btn-new-prop{background:#fff3;color:#fff;border:1px solid #fff6;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
-/* タブ */
 .tabs{display:flex;background:#fff;border-bottom:2px solid #ffcc80;overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:99}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex-shrink:0;padding:10px 14px;font-size:12px;font-weight:700;border:none;background:none;color:#999;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
 .tab.active{color:#e65100;border-bottom-color:#e65100}
-/* パネル */
 .panel{display:none;padding:12px}
 .panel.active{display:block}
-/* セクション */
 .sec{background:#fff;border-radius:12px;margin-bottom:12px;overflow:hidden;border:1px solid #eee}
 .sec-h{padding:10px 14px;font-size:13px;font-weight:800;color:#fff}
 .sec-h.water{background:#1976d2}
@@ -29,16 +25,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 .sec-h.equip{background:#7b1fa2}
 .sec-h.extra{background:#e65100}
 .sec-h.prep{background:#f39c12}
-.sec-h.memo{background:#455a64}
-.sec-b{padding:0}
+.sec-h.memo-h{background:#455a64}
+.sec-h.photo-h{background:#00838f}
 /* チェックアイテム */
-.chk-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background 0.1s}
+.chk-item{padding:10px 14px;border-bottom:1px solid #f0f0f0}
 .chk-item:last-child{border-bottom:none}
-.chk-item:active{background:#f9f9f9}
-.chk-item.checked{background:#f1f8e9}
 .chk-item.warn{border-left:4px solid #e53935}
-.chk-item.checked.warn{background:#fce4ec;border-left-color:#e53935}
-.chk-num{font-size:11px;font-weight:800;color:#aaa;min-width:20px;padding-top:2px}
+.chk-top{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.chk-num{font-size:11px;font-weight:800;color:#aaa;min-width:20px;padding-top:3px}
 .chk-item.warn .chk-num{color:#e53935}
 .chk-box{width:22px;height:22px;border:2px solid #ccc;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s}
 .chk-item.checked .chk-box{background:#4caf50;border-color:#4caf50}
@@ -47,61 +41,68 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 .chk-body{flex:1}
 .chk-title{font-size:13px;font-weight:700;color:#333}
 .chk-item.warn .chk-title{color:#c62828}
+.chk-item.checked .chk-title{color:#aaa;text-decoration:line-through}
 .warn-badge{font-size:10px;background:#e53935;color:#fff;border-radius:4px;padding:1px 5px;margin-left:5px;font-weight:700}
 .chk-desc{font-size:11px;color:#888;margin-top:2px}
-.chk-item.checked .chk-title{color:#888;text-decoration:line-through}
-/* メモ入力 */
+/* チェックメモ欄 */
+.chk-memo-wrap{margin-top:6px;padding-left:32px}
+.chk-memo{width:100%;border:1px solid #e0e0e0;border-radius:6px;padding:6px 8px;font-size:12px;color:#333;background:#fafafa;resize:none;min-height:32px;line-height:1.4}
+.chk-memo:focus{border-color:#e65100;outline:none;background:#fff}
+.chk-memo-hint{font-size:10px;color:#bbb;margin-bottom:2px}
+/* 準備リスト */
+.prep-item{padding:10px 14px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:10px}
+.prep-item:last-child{border-bottom:none}
+.prep-icon{font-size:20px;flex-shrink:0}
+.prep-title{font-size:13px;font-weight:700}
+.prep-sub{font-size:11px;color:#888;margin-top:2px}
+.phone-item{padding:10px 14px;border-bottom:1px solid #f0f0f0;display:grid;grid-template-columns:1fr 2fr;gap:8px}
+.phone-item:last-child{border-bottom:none}
+.phone-key{font-size:12px;font-weight:800;color:#e65100}
+.phone-val{font-size:12px;color:#444}
+/* 警告 */
+.warn-box{background:#fff3e0;border:1px solid #ffb74d;border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:#e65100;display:flex;gap:8px}
+/* 判定 */
+.score-wrap{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;text-align:center}
+.score-num{font-size:56px;font-weight:900;line-height:1}
+.score-label{font-size:14px;color:#888;margin-top:4px}
+.progress-bar-wrap{background:#f0f0f0;border-radius:10px;height:12px;margin:8px 0;overflow:hidden}
+.progress-bar{height:100%;border-radius:10px;background:#4caf50;transition:width 0.4s}
+.judge-badge{display:inline-block;padding:8px 24px;border-radius:20px;font-size:16px;font-weight:800;margin-top:12px}
+.judge-A{background:#e8f5e9;color:#2e7d32}
+.judge-B{background:#fff8e1;color:#f57f17}
+.judge-C{background:#fce4ec;color:#c62828}
+.judge-D{background:#f3e5f5;color:#6a1b9a}
+.score-detail{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
+.score-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.score-row:last-child{border-bottom:none}
+/* 物件メモ欄 */
 .memo-row{padding:8px 14px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:8px}
 .memo-row:last-child{border-bottom:none}
 .memo-label{font-size:12px;font-weight:700;color:#555;min-width:90px;flex-shrink:0}
 .memo-input{flex:1;border:1px solid #ddd;border-radius:6px;padding:6px 10px;font-size:13px;background:#fafafa}
 .memo-input:focus{border-color:#e65100;outline:none;background:#fff}
 textarea.memo-input{resize:vertical;min-height:60px}
-/* 準備リスト */
-.prep-item{padding:10px 14px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:10px}
-.prep-item:last-child{border-bottom:none}
-.prep-icon{font-size:20px;flex-shrink:0}
-.prep-body .prep-title{font-size:13px;font-weight:700}
-.prep-body .prep-sub{font-size:11px;color:#888;margin-top:2px}
-.phone-item{padding:10px 14px;border-bottom:1px solid #f0f0f0;display:grid;grid-template-columns:1fr 2fr;gap:8px;align-items:start}
-.phone-item:last-child{border-bottom:none}
-.phone-key{font-size:12px;font-weight:800;color:#e65100}
-.phone-val{font-size:12px;color:#444}
-/* 警告ボックス */
-.warn-box{background:#fff3e0;border:1px solid #ffb74d;border-radius:8px;padding:10px 14px;margin:10px 12px;font-size:12px;color:#e65100;display:flex;gap:8px}
-.ng-box{background:#fce4ec;border:1px solid #ef9a9a;border-radius:8px;padding:10px 14px;margin:10px 12px;font-size:12px;color:#c62828;display:flex;gap:8px}
-/* 判定パネル */
-.score-wrap{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;text-align:center}
-.score-num{font-size:56px;font-weight:900;line-height:1}
-.score-label{font-size:14px;color:#888;margin-top:4px}
-.judge-badge{display:inline-block;padding:8px 24px;border-radius:20px;font-size:16px;font-weight:800;margin-top:12px}
-.judge-A{background:#e8f5e9;color:#2e7d32}
-.judge-B{background:#fff8e1;color:#f57f17}
-.judge-C{background:#fce4ec;color:#c62828}
-.judge-D{background:#f3e5f5;color:#6a1b9a}
-.progress-bar-wrap{background:#f0f0f0;border-radius:10px;height:12px;margin:8px 0;overflow:hidden}
-.progress-bar{height:100%;border-radius:10px;background:#4caf50;transition:width 0.4s}
-.score-detail{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
-.score-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
-.score-row:last-child{border-bottom:none}
-.score-row-label{color:#555}
-.score-row-val{font-weight:700}
+/* 写真 */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
+.photo-cell{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f0f0f0;cursor:pointer}
+.photo-cell img{width:100%;height:100%;object-fit:cover}
+.photo-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.photo-add{display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #ccc;background:#fafafa;font-size:24px;color:#ccc}
+.photo-add-label{font-size:11px;color:#ccc;margin-top:4px}
 /* 物件一覧 */
-.prop-list{display:flex;flex-direction:column;gap:8px}
-.prop-card{background:#fff;border-radius:12px;padding:14px;border:1px solid #eee;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.prop-card:active{background:#f9f9f9}
+.prop-card{background:#fff;border-radius:12px;padding:14px;border:1px solid #eee;display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-bottom:8px}
 .prop-card-name{font-size:14px;font-weight:700}
 .prop-card-sub{font-size:11px;color:#888;margin-top:3px}
 .prop-card-score{font-size:22px;font-weight:900;color:#e65100}
 .prop-del{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:4px}
-/* 切り替えトグル */
-.type-toggle{display:flex;background:#f0f0f0;border-radius:20px;padding:3px;margin:10px 12px}
+/* タイプトグル */
+.type-toggle{display:flex;background:#f0f0f0;border-radius:20px;padding:3px;margin-bottom:10px}
 .type-btn{flex:1;padding:7px;border:none;border-radius:17px;font-size:12px;font-weight:700;cursor:pointer;background:none;color:#888;transition:all 0.2s}
 .type-btn.active{background:#e65100;color:#fff}
-/* フォームボタン */
+/* ボタン */
 .action-btn{width:100%;padding:13px;background:#e65100;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:8px}
-.action-btn.sec{background:#fff;color:#e65100;border:2px solid #e65100}
-.action-btn:hover{opacity:0.9}
+.action-btn.sub{background:#fff;color:#e65100;border:2px solid #e65100}
+.action-btn.teal{background:#00838f}
 /* モーダル */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
@@ -109,9 +110,7 @@ textarea.memo-input{resize:vertical;min-height:60px}
 .modal-title{font-size:16px;font-weight:800;color:#e65100;margin-bottom:16px}
 .modal input{width:100%;border:1.5px solid #ddd;border-radius:8px;padding:10px;font-size:14px;margin-bottom:10px}
 .modal input:focus{border-color:#e65100;outline:none}
-/* 一棟バッジ */
 .ittoubadge{font-size:10px;background:#7b1fa2;color:#fff;border-radius:4px;padding:1px 5px;margin-left:5px;font-weight:700}
-/* 印刷 */
 @media print{.app-header,.tabs{display:none}.panel{display:block!important}}
 </style>
 </head>
@@ -127,16 +126,16 @@ textarea.memo-input{resize:vertical;min-height:60px}
 
 <div class="tabs">
   <button class="tab active" onclick="showTab(0)">📋 準備</button>
-  <button class="tab" onclick="showTab(1)">🏠 チェック</button>
+  <button class="tab" onclick="showTab(1)">✅ チェック</button>
   <button class="tab" onclick="showTab(2)">📝 メモ</button>
-  <button class="tab" onclick="showTab(3)">📊 判定</button>
-  <button class="tab" onclick="showTab(4)">🗂️ 物件一覧</button>
+  <button class="tab" onclick="showTab(3)">📸 写真</button>
+  <button class="tab" onclick="showTab(4)">📊 判定</button>
+  <button class="tab" onclick="showTab(5)">🗂️ 一覧</button>
 </div>
 
 <!-- パネル0: 準備 -->
 <div class="panel active" id="panel-0">
-
-  <div class="warn-box">⚠️ <span><b>NGワード注意：</b>不動産会社に「ボロ戸建て」は使わない。<b>「リノベーション物件」「築古戸建て」</b>と伝えよう。</span></div>
+  <div class="warn-box">⚠️ <span><b>NGワード：</b>「ボロ戸建て」は使わない → <b>「リノベーション物件」「築古戸建て」</b>と伝えよう</span></div>
 
   <div class="sec">
     <div class="sec-h prep">📞 最初の電話で必ず聞くこと</div>
@@ -152,78 +151,86 @@ textarea.memo-input{resize:vertical;min-height:60px}
   </div>
 
   <div class="sec">
-    <div class="sec-h prep">🎒 内覧時の持ち物リスト</div>
+    <div class="sec-h prep">🎒 内覧時の持ち物</div>
     <div class="sec-b">
-      <div class="prep-item"><div class="prep-icon">📏</div><div class="prep-body"><div class="prep-title">メジャー</div><div class="prep-sub">部屋の寸法・設備サイズ確認</div></div></div>
-      <div class="prep-item"><div class="prep-icon">🔦</div><div class="prep-body"><div class="prep-title">懐中電灯</div><div class="prep-sub">床下・天井裏・暗所確認</div></div></div>
-      <div class="prep-item"><div class="prep-icon">📱</div><div class="prep-body"><div class="prep-title">スマホ</div><div class="prep-sub">カメラ・水平器アプリ使用</div></div></div>
-      <div class="prep-item"><div class="prep-icon">🎯</div><div class="prep-body"><div class="prep-title">レーザー水平器</div><div class="prep-sub">緑色が見やすくておすすめ。建物の傾き確認</div></div></div>
-      <div class="prep-item"><div class="prep-icon">📷</div><div class="prep-body"><div class="prep-title">カメラ</div><div class="prep-sub">問題箇所を全部撮影</div></div></div>
-      <div class="prep-item"><div class="prep-icon">📋</div><div class="prep-body"><div class="prep-title">このチェックシート</div><div class="prep-sub">印刷 or スマホで持参</div></div></div>
+      <div class="prep-item"><div class="prep-icon">📏</div><div><div class="prep-title">メジャー</div><div class="prep-sub">部屋の寸法・設備サイズ確認</div></div></div>
+      <div class="prep-item"><div class="prep-icon">🔦</div><div><div class="prep-title">懐中電灯</div><div class="prep-sub">床下・天井裏・暗所確認</div></div></div>
+      <div class="prep-item"><div class="prep-icon">🎯</div><div><div class="prep-title">レーザー水平器</div><div class="prep-sub">緑色が見やすくておすすめ。建物の傾き確認</div></div></div>
+      <div class="prep-item"><div class="prep-icon">📷</div><div><div class="prep-title">カメラ（スマホ可）</div><div class="prep-sub">問題箇所を全部撮影。このアプリの写真タブに保存できます</div></div></div>
     </div>
   </div>
 
   <div class="sec">
     <div class="sec-h prep">🚶 内覧前に必ずやること</div>
     <div class="sec-b">
-      <div class="prep-item"><div class="prep-icon">🚗</div><div class="prep-body"><div class="prep-title">少し早めに到着</div><div class="prep-sub">車で周辺を一周して雰囲気を確認。治安・交通量・騒音・臭いは現地でしかわからない</div></div></div>
-      <div class="prep-item"><div class="prep-icon">👣</div><div class="prep-body"><div class="prep-title">近所を歩く</div><div class="prep-sub">ゴミ屋敷・ご近所トラブルの気配・ゴミ置き場の管理状態をチェック。住民の質がわかる</div></div></div>
+      <div class="prep-item"><div class="prep-icon">🚗</div><div><div class="prep-title">少し早めに到着</div><div class="prep-sub">車で周辺を一周。治安・交通量・騒音・臭いは現地でしかわからない</div></div></div>
+      <div class="prep-item"><div class="prep-icon">👣</div><div><div class="prep-title">近所を歩く</div><div class="prep-sub">ゴミ屋敷・ご近所トラブルの気配・ゴミ置き場の管理状態をチェック</div></div></div>
     </div>
   </div>
 
-  <div class="warn-box">⚡ <span><b>内覧後に不動産会社に必ず聞くこと：</b><br>①売主の状況（年齢・住まい・売却理由）②今までの内覧者数・指値の状況③こういった物件が他にもあるか<br><br><b>交渉のアピール：</b>現金買い付け・仲介手数料しっかり払う・契約不適合責任免責でOK</span></div>
+  <div class="warn-box">⚡ <span><b>内覧後に必ず聞くこと：</b>①売主の状況（年齢・住まい・売却理由）②内覧者数・指値の状況③類似物件が他にもあるか<br><br><b>交渉アピール：</b>現金買い付け・仲介手数料しっかり払う・契約不適合責任免責でOK</span></div>
 
   <button class="action-btn" onclick="showTab(1)">✅ チェックリストへ進む →</button>
 </div>
 
 <!-- パネル1: チェックリスト -->
 <div class="panel" id="panel-1">
-
   <div class="type-toggle">
     <button class="type-btn active" id="type-kodatate" onclick="setType('kodatate')">🏠 戸建て</button>
     <button class="type-btn" id="type-ittou" onclick="setType('ittou')">🏢 一棟物</button>
   </div>
-
   <div id="checklist-area"></div>
-
 </div>
 
 <!-- パネル2: 物件メモ -->
 <div class="panel" id="panel-2">
   <div class="sec">
-    <div class="sec-h memo">📝 物件基本情報</div>
+    <div class="sec-h memo-h">📝 物件情報</div>
     <div class="sec-b">
-      <div class="memo-row"><div class="memo-label">物件名・所在地</div><input class="memo-input" type="text" id="m-name" placeholder="例：大阪府〇〇市△△町" oninput="saveMemo()"></div>
+      <div class="memo-row"><div class="memo-label">物件名・所在地</div><input class="memo-input" type="text" id="m-name" placeholder="例：大阪府〇〇市" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">売値</div><input class="memo-input" type="text" id="m-price" placeholder="例：580万円" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">想定家賃</div><input class="memo-input" type="text" id="m-rent" placeholder="例：5.5万円/月" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">修繕費概算</div><input class="memo-input" type="text" id="m-reform" placeholder="例：150万円" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">内覧者数</div><input class="memo-input" type="text" id="m-viewers" placeholder="例：3名" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">売主の状況</div><input class="memo-input" type="text" id="m-seller" placeholder="例：高齢・相続・県外在住" oninput="saveMemo()"></div>
       <div class="memo-row"><div class="memo-label">売却理由</div><input class="memo-input" type="text" id="m-reason" placeholder="例：相続・転勤" oninput="saveMemo()"></div>
-      <div class="memo-row"><div class="memo-label">修繕履歴</div><textarea class="memo-input" id="m-history" placeholder="屋根・外壁・水回りなどの修繕歴を記録" oninput="saveMemo()"></textarea></div>
+      <div class="memo-row"><div class="memo-label">修繕履歴</div><textarea class="memo-input" id="m-history" placeholder="屋根・外壁・水回りなどの修繕歴" oninput="saveMemo()"></textarea></div>
       <div class="memo-row"><div class="memo-label">気になる点</div><textarea class="memo-input" id="m-concern" placeholder="問題点・要確認事項を自由に記録" oninput="saveMemo()"></textarea></div>
       <div class="memo-row"><div class="memo-label">指値金額</div><input class="memo-input" type="text" id="m-offer" placeholder="例：450万円（▲130万円）" oninput="saveMemo()"></div>
     </div>
   </div>
 </div>
 
-<!-- パネル3: 判定 -->
+<!-- パネル3: 写真 -->
 <div class="panel" id="panel-3">
-  <div class="score-wrap" id="score-wrap">
+  <div class="sec">
+    <div class="sec-h photo-h">📸 内覧写真</div>
+    <div id="photo-grid" class="photo-grid"></div>
+    <input type="file" id="photo-input" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
+  </div>
+  <button class="action-btn teal" onclick="document.getElementById('photo-input').click()">📷 写真を追加</button>
+  <button class="action-btn sub" onclick="shareReport()">📧 メールで送る</button>
+  <p style="font-size:11px;color:#999;text-align:center;margin-top:4px">※写真はこの端末のみに保存されます</p>
+</div>
+
+<!-- パネル4: 判定 -->
+<div class="panel" id="panel-4">
+  <div class="score-wrap">
     <div class="score-num" id="score-num">-</div>
     <div class="score-label">チェック完了率</div>
     <div class="progress-bar-wrap"><div class="progress-bar" id="score-bar" style="width:0%"></div></div>
-    <div class="judge-badge" id="judge-badge">まだ未チェック</div>
+    <div class="judge-badge judge-D" id="judge-badge">まだ未チェック</div>
   </div>
   <div class="score-detail" id="score-detail"></div>
   <div class="score-detail" id="warn-summary"></div>
-  <button class="action-btn sec" onclick="window.print()">🖨️ 印刷 / PDFで保存</button>
+  <button class="action-btn sub" onclick="window.print()">🖨️ 印刷 / PDF保存</button>
+  <button class="action-btn teal" onclick="shareReport()">📧 メールで送る</button>
 </div>
 
-<!-- パネル4: 物件一覧 -->
-<div class="panel" id="panel-4">
-  <div class="prop-list" id="prop-list"></div>
-  <button class="action-btn" style="margin-top:10px" onclick="openNewPropModal()">＋ 新しい物件を追加</button>
+<!-- パネル5: 物件一覧 -->
+<div class="panel" id="panel-5">
+  <div id="prop-list"></div>
+  <button class="action-btn" style="margin-top:4px" onclick="openNewPropModal()">＋ 新しい物件を追加</button>
 </div>
 
 <!-- 新規物件モーダル -->
@@ -232,60 +239,58 @@ textarea.memo-input{resize:vertical;min-height:60px}
     <div class="modal-title">🏠 新しい物件を追加</div>
     <input type="text" id="new-prop-name" placeholder="物件名（例：大阪 ○○戸建て）" onkeydown="if(event.key==='Enter')createProp()">
     <button class="action-btn" onclick="createProp()">追加する</button>
-    <button class="action-btn sec" onclick="closeModal()">キャンセル</button>
+    <button class="action-btn sub" onclick="closeModal()">キャンセル</button>
   </div>
 </div>
 
 <script>
-// ============================================================
-// データ
-// ============================================================
-const STORE_KEY='nairan_props_v1';
+const STORE_KEY='nairan_v3';
 
+// ============================================================
 // チェック項目定義
+// ============================================================
 const CHECKS_KODATATE=[
   // 水回り
-  {id:'c1', cat:'water', num:1, title:'水道漏れ・引き込み確認', desc:'止水栓があれば許可を得て開栓し、水道メーターのパイロット（コマ）が回っていないか確認。井戸は不可。上水道引き込みは高額になる', warn:false},
-  {id:'c2', cat:'water', num:2, title:'下水・浄化槽の種類と状態', desc:'単独浄化槽・合併浄化槽・集中浄化槽の種類を確認。便槽は大きさを要確認（家族人数×100L=1ヶ月分の目安）', warn:true},
-  {id:'c3', cat:'water', num:3, title:'お風呂の状態', desc:'タイルの亀裂・目地の劣化・追い焚き機能・シャワーの有無を確認。ユニットバス交換：80〜100万円', warn:true},
-  {id:'c4', cat:'water', num:4, title:'キッチンの流し', desc:'シンクのサビ・穴・タイル製でないか確認。リメイクシートで蘇ることも多い', warn:false},
-  {id:'c5', cat:'water', num:5, title:'洗面化粧台（温水・コンセント）', desc:'温水（給湯管）が来ているか、コンセントがあるか確認。取り換え5万〜', warn:false},
-  {id:'c6', cat:'water', num:6, title:'洗濯機置場（室内か・コンセント）', desc:'室内か屋外か確認。コンセントの有無も要チェック。外・お風呂の中は❌', warn:false},
-  {id:'c7', cat:'water', num:7, title:'トイレの種類', desc:'汲み取り・簡易水洗・水洗のどれか確認。洋式か和式かも必ずチェック。和式→洋式水洗は40万〜', warn:false},
-  {id:'c8', cat:'water', num:8, title:'給湯器の状態', desc:'製造年月日を確認（10年以上は交換見込む）。追い焚き機能の有無・外回りの配管に保護材が巻かれているかも確認', warn:false},
+  {id:'c1',cat:'water',num:1,title:'水道漏れ・引き込み確認',hint:'水道メーター・コマの状態：',desc:'止水栓があれば許可を得て開栓し、水道メーターのパイロット（コマ）が回っていないか確認。井戸は不可。上水道引き込みは高額',warn:false},
+  {id:'c2',cat:'water',num:2,title:'下水・浄化槽の種類と状態',hint:'種類（下水／単独浄化槽／合併浄化槽／汲み取り）：',desc:'単独浄化槽・合併浄化槽・集中浄化槽の種類を確認。便槽は大きさを要確認（家族数×100L=1ヶ月分の目安）',warn:true},
+  {id:'c3',cat:'water',num:3,title:'お風呂の状態',hint:'状態・タイルのひび割れ等：',desc:'タイルの亀裂・目地の劣化・追い焚き機能・シャワーの有無を確認。ユニットバス交換：80〜100万円',warn:true},
+  {id:'c4',cat:'water',num:4,title:'キッチンの流し',hint:'サビ・穴・状態：',desc:'シンクのサビ・穴・タイル製でないか確認。リメイクシートで蘇ることも多い',warn:false},
+  {id:'c5',cat:'water',num:5,title:'洗面化粧台（温水・コンセント）',hint:'温水の有無・コンセントの有無：',desc:'温水（給湯管）が来ているか、コンセントがあるか確認。取り換え5万〜',warn:false},
+  {id:'c6',cat:'water',num:6,title:'洗濯機置場（室内か・コンセント）',hint:'置き場所（室内／屋外）・コンセントの有無：',desc:'室内か屋外か確認。コンセントの有無も要チェック。外・お風呂の中は❌',warn:false},
+  {id:'c7',cat:'water',num:7,title:'トイレの種類',hint:'種類（汲み取り／簡易水洗／水洗）・洋式か和式か：',desc:'汲み取り・簡易水洗・水洗のどれか確認。洋式か和式かも必ずチェック。和式→洋式水洗は40万〜',warn:false},
+  {id:'c8',cat:'water',num:8,title:'給湯器の状態',hint:'製造年月日・追い焚き機能の有無：',desc:'製造年月日を確認（10年以上は交換見込む）。追い焚き機能の有無・外回りの配管に保護材が巻かれているかも確認',warn:false},
   // 構造・外観
-  {id:'c9', cat:'struct', num:9, title:'外観全体（外壁・基礎・屋根・雨樋）', desc:'外壁チョーキング・基礎割れ・蟻道・軒天・屋根・雨樋を確認', warn:false},
-  {id:'c10', cat:'struct', num:10, title:'雨漏りチェック', desc:'屋根・壁・ベランダ・雨樋を確認。天井点検口があれば覗く。天井のシミ・木材の変色も要確認', warn:true},
-  {id:'c11', cat:'struct', num:11, title:'床抜け・床の状態', desc:'水回り・風呂場周辺を歩いてフカフカ感を確認。下地・根太・大引の劣化、シロアリ、腐食が原因', warn:true},
-  {id:'c12', cat:'struct', num:12, title:'建物の傾き（レーザー水平器）', desc:'サッシ・建具などに歪みや開閉不良があればレーザー水平器で計測。1mで6mm以内（中古基準）。全体傾き→買うな', warn:true},
-  {id:'c13', cat:'struct', num:13, title:'床下の状態', desc:'床下点検口・畳の下・通気口から懐中電灯で確認。漏水・カビ・シロアリ・基礎割れ・廃材の残存をチェック', warn:false},
-  {id:'c14', cat:'struct', num:14, title:'崖・擁壁チェック', desc:'コンクリートブロック二重積みは違法。水抜き穴（3m以内ごとに内径7.5cm以上）・クラック・ふくらみを確認', warn:true},
-  {id:'c15', cat:'struct', num:15, title:'隣地との境界・越境物', desc:'境界標のチェック・越境物の確認。境界合意の覚書・越境物の覚書の有無を不動産会社に確認', warn:false},
+  {id:'c9',cat:'struct',num:9,title:'外観全体（外壁・基礎・屋根・雨樋）',hint:'気になる箇所：',desc:'外壁チョーキング・基礎割れ・蟻道・軒天・屋根・雨樋を確認',warn:false},
+  {id:'c10',cat:'struct',num:10,title:'雨漏りチェック',hint:'雨漏り痕の場所・状態：',desc:'屋根・壁・ベランダ・雨樋を確認。天井点検口があれば覗く。天井のシミ・木材の変色も要確認',warn:true},
+  {id:'c11',cat:'struct',num:11,title:'床抜け・床の状態',hint:'フカフカする場所：',desc:'水回り・風呂場周辺を歩いてフカフカ感を確認。下地・根太・大引の劣化、シロアリ、腐食が原因',warn:true},
+  {id:'c12',cat:'struct',num:12,title:'建物の傾き',hint:'傾き計測値（1mで何mm）：',desc:'サッシ・建具などに歪みや開閉不良があればレーザー水平器で計測。1mで6mm以内（中古基準）。全体傾き→買うな',warn:true},
+  {id:'c13',cat:'struct',num:13,title:'床下の状態',hint:'漏水・カビ・シロアリ等：',desc:'床下点検口・畳の下・通気口から懐中電灯で確認。漏水・カビ・シロアリ・基礎割れ・廃材の残存をチェック',warn:false},
+  {id:'c14',cat:'struct',num:14,title:'崖・擁壁チェック',hint:'擁壁の種類・クラックの有無：',desc:'コンクリートブロック二重積みは違法。水抜き穴（3m以内ごとに内径7.5cm以上）・クラック・ふくらみを確認',warn:true},
+  {id:'c15',cat:'struct',num:15,title:'隣地との境界・越境物',hint:'境界標の有無・越境物：',desc:'境界標のチェック・越境物の確認。境界合意の覚書・越境物の覚書の有無を不動産会社に確認',warn:false},
   // 設備・法令
-  {id:'c16', cat:'equip', num:16, title:'ブレーカー・電気系統', desc:'アンペア数チェック・3芯引き込みか確認。2線式は30A上限で交換必要（分電盤交換・3芯引き直しで約15万円）', warn:true},
-  {id:'c17', cat:'equip', num:17, title:'前面道路・接道状況', desc:'建築基準法第42条に該当する道路か確認。幅員4m以上・接道2m以上が条件。4m未満はセットバック必要', warn:true},
-  {id:'c18', cat:'equip', num:18, title:'襖・障子の建て付け', desc:'鴨居と敷居の反り・柱の歪み。調整や隙間材で補修可能な場合も。柱が大きく歪んでいる場合は傾きのサインかも', warn:false},
-  {id:'c19', cat:'equip', num:19, title:'窓・サッシの建て付け', desc:'開閉がスムーズか確認。建付けが悪い原因は建物の歪み・傾きの可能性。戸車調整、または故障なら軽微', warn:false},
-  {id:'c20', cat:'equip', num:20, title:'残置物の量と種類', desc:'全体の量と費用のかかる物の確認。家電リサイクル法対象品（テレビ・冷蔵庫・洗濯機・エアコン）は各2,000〜4,000円以上の処分費用', warn:false},
-  {id:'c21', cat:'equip', num:21, title:'ガスの種類（都市ガス・プロパン）', desc:'都市ガス・個別プロパン・集中プロパンの種類を確認。ボンベ業者の社名と給湯器の年式・追い焚き機能の有無も記録', warn:false},
-  {id:'c22', cat:'equip', num:22, title:'2階から1階屋根チェック', desc:'2階建てで1階に平屋部分がある場合、2階の窓から1階部分の屋根を確認。雨漏り原因箇所になりやすい', warn:false},
+  {id:'c16',cat:'equip',num:16,title:'ブレーカー・電気系統',hint:'アンペア数・2線式か3線式か：',desc:'アンペア数チェック・3芯引き込みか確認。2線式は30A上限で交換必要（分電盤交換・3芯引き直しで約15万円）',warn:true},
+  {id:'c17',cat:'equip',num:17,title:'前面道路・接道状況',hint:'前面道路の幅員（　　m）・接道（　　m）：',desc:'建築基準法第42条に該当する道路か確認。幅員4m以上・接道2m以上が条件。4m未満はセットバック必要',warn:true},
+  {id:'c18',cat:'equip',num:18,title:'襖・障子の建て付け',hint:'開閉の状態・歪みの程度：',desc:'鴨居と敷居の反り・柱の歪み。調整や隙間材で補修可能な場合も。柱が大きく歪んでいる場合は傾きのサイン',warn:false},
+  {id:'c19',cat:'equip',num:19,title:'窓・サッシの建て付け',hint:'開閉の状態：',desc:'開閉がスムーズか確認。建付けが悪い原因は建物の歪み・傾きの可能性。戸車調整、または故障なら軽微',warn:false},
+  {id:'c20',cat:'equip',num:20,title:'残置物の量と種類',hint:'残置物の種類・量・要処分品：',desc:'全体の量と費用のかかる物の確認。家電リサイクル法対象品（テレビ・冷蔵庫・洗濯機・エアコン）は各2,000〜4,000円以上の処分費用',warn:false},
+  {id:'c21',cat:'equip',num:21,title:'ガスの種類',hint:'ガスの種類（都市ガス／個別プロパン／集中プロパン）：',desc:'都市ガス・個別プロパン・集中プロパンの種類を確認。ボンベ業者の社名と給湯器の年式・追い焚き機能の有無も記録',warn:false},
+  {id:'c22',cat:'equip',num:22,title:'2階から1階屋根チェック',hint:'屋根の状態：',desc:'2階建てで1階に平屋部分がある場合、2階の窓から1階部分の屋根を確認。雨漏り原因箇所になりやすい',warn:false},
 ];
 
-// 一棟物追加チェック
 const CHECKS_ITTOU=[
-  {id:'i1', cat:'extra', num:'一1', title:'外観の第一印象', desc:'建物全体の清潔感・管理状態を確認', warn:false},
-  {id:'i2', cat:'extra', num:'一2', title:'外壁クラック・チョーキング', desc:'RC造・鉄骨造は爆裂（鉄筋サビ膨張によるコンクリート崩落）が起こりえる', warn:true},
-  {id:'i3', cat:'extra', num:'一3', title:'ベランダ・屋上防水の状態', desc:'防水が劣化していると雨漏りの直接原因になる。修繕履歴を確認し、実地に屋上へ上がって確認できれば必ず行う', warn:true},
-  {id:'i4', cat:'extra', num:'一4', title:'ゴミ置き場・植栽・共用部分の管理状態', desc:'管理状態は入居者の質と管理会社の水準を示す。放置自転車・私物の有無も確認', warn:false},
-  {id:'i5', cat:'extra', num:'一5', title:'玄関ドア周辺の異臭・私物の有無', desc:'居住環境の問題や入居者トラブルのサインになる', warn:false},
-  {id:'i6', cat:'extra', num:'一6', title:'受水槽・高架水槽・給水ポンプ・浄化槽', desc:'清掃・検査は1年以内ごとに1回実施義務あり。給水ポンプが古くなれば交換が必要で高額になる。記録簿を必ず確認', warn:true},
-  {id:'i7', cat:'extra', num:'一7', title:'エレベーター（点検記録簿・種類確認）', desc:'メンテナンス費用は月3万円〜。部品供給がなくなれば丸ごと交換で1,000万円超えも。4階建ては設置・維持コストに要注意', warn:true},
-  {id:'i8', cat:'extra', num:'一8', title:'消火栓・消防点検記録簿の確認', desc:'床面積150m²以上の共同住宅は消防設備の設置・点検が法律上の義務', warn:false},
-  {id:'i9', cat:'extra', num:'一9', title:'修繕履歴記録の有無', desc:'記録簿・修繕履歴記録がある物件は信頼度が高く、融資も通りやすい。必ず書面で確認', warn:false},
+  {id:'i1',cat:'extra',num:'一1',title:'外観の第一印象',hint:'第一印象・気になる点：',desc:'建物全体の清潔感・管理状態を確認',warn:false},
+  {id:'i2',cat:'extra',num:'一2',title:'外壁クラック・チョーキング',hint:'クラックの場所・程度：',desc:'RC造・鉄骨造は爆裂（鉄筋サビ膨張によるコンクリート崩落）が起こりえる',warn:true},
+  {id:'i3',cat:'extra',num:'一3',title:'ベランダ・屋上防水の状態',hint:'防水の状態（ひび割れ・水溜まり等）：',desc:'防水が劣化していると雨漏りの直接原因になる。修繕履歴を確認し、実地に屋上へ上がって確認できれば必ず行う',warn:true},
+  {id:'i4',cat:'extra',num:'一4',title:'ゴミ置き場・共用部の管理状態',hint:'管理状態・放置物の有無：',desc:'管理状態は入居者の質と管理会社の水準を示す。放置自転車・私物の有無も確認',warn:false},
+  {id:'i5',cat:'extra',num:'一5',title:'玄関ドア周辺の異臭・私物の有無',hint:'異臭の有無・私物の有無：',desc:'居住環境の問題や入居者トラブルのサインになる',warn:false},
+  {id:'i6',cat:'extra',num:'一6',title:'受水槽・高架水槽・給水ポンプ',hint:'点検記録の有無・最終点検日：',desc:'清掃・検査は1年以内ごとに1回実施義務あり。給水ポンプが古くなれば交換が必要で高額になる',warn:true},
+  {id:'i7',cat:'extra',num:'一7',title:'エレベーター（点検記録簿・種類確認）',hint:'種類・最終点検日・メンテナンス会社：',desc:'メンテナンス費用は月3万円〜。部品供給がなくなれば丸ごと交換で1,000万円超えも',warn:true},
+  {id:'i8',cat:'extra',num:'一8',title:'消火栓・消防点検記録簿の確認',hint:'最終点検日・記録簿の有無：',desc:'床面積150m²以上の共同住宅は消防設備の設置・点検が法律上の義務',warn:false},
+  {id:'i9',cat:'extra',num:'一9',title:'修繕履歴記録の有無',hint:'直近の修繕内容：',desc:'記録簿・修繕履歴記録がある物件は信頼度が高く、融資も通りやすい。必ず書面で確認',warn:false},
 ];
 
 // ============================================================
-// 物件データ管理
+// データ管理
 // ============================================================
 function loadData(){return JSON.parse(localStorage.getItem(STORE_KEY)||'{"props":[],"current":null}');}
 function saveData(d){localStorage.setItem(STORE_KEY,JSON.stringify(d));}
@@ -295,7 +300,6 @@ function currentProp(){
   if(!d.current||!d.props.length) return null;
   return d.props.find(p=>p.id===d.current)||null;
 }
-
 function updateCurrentProp(fn){
   const d=loadData();
   const idx=d.props.findIndex(p=>p.id===d.current);
@@ -306,21 +310,20 @@ function updateCurrentProp(fn){
 // 初期化
 // ============================================================
 let currentTab=0;
-let propType='kodatate'; // kodatate or ittou
+let propType='kodatate';
 
 function init(){
   const d=loadData();
   if(!d.props.length){
-    // デモ物件を1件追加
-    const demo={id:'p'+Date.now(),name:'物件①',type:'kodatate',checks:{},memo:{}};
-    d.props=[demo];d.current=demo.id;
-    saveData(d);
+    const demo={id:'p'+Date.now(),name:'物件①',type:'kodatate',checks:{},checkMemos:{},memo:{},photos:[]};
+    d.props=[demo];d.current=demo.id;saveData(d);
   }
   renderPropSelect();
   const p=currentProp();
-  if(p){propType=p.type||'kodatate';}
+  if(p) propType=p.type||'kodatate';
   renderChecklist();
   renderMemo();
+  renderPhotos();
   renderScore();
   renderPropList();
 }
@@ -331,18 +334,15 @@ function init(){
 function renderPropSelect(){
   const d=loadData();
   const sel=document.getElementById('prop-select');
-  sel.innerHTML=d.props.map(p=>`<option value="${p.id}"${p.id===d.current?' selected':''}>${p.name}</option>`).join('');
+  sel.innerHTML=d.props.map(p=>'<option value="'+p.id+'"'+(p.id===d.current?' selected':'')+'>'+p.name+'</option>').join('');
 }
 
 function switchProp(id){
-  const d=loadData();
-  d.current=id;
-  saveData(d);
-  const p=currentProp();
-  if(p) propType=p.type||'kodatate';
-  renderChecklist();
-  renderMemo();
-  renderScore();
+  const d=loadData();d.current=id;saveData(d);
+  const p=currentProp();if(p) propType=p.type||'kodatate';
+  renderChecklist();renderMemo();renderPhotos();renderScore();renderPropList();
+  document.getElementById('type-kodatate').classList.toggle('active',propType==='kodatate');
+  document.getElementById('type-ittou').classList.toggle('active',propType==='ittou');
 }
 
 function openNewPropModal(){
@@ -354,17 +354,11 @@ function closeModal(){document.getElementById('new-prop-modal').classList.remove
 function createProp(){
   const name=document.getElementById('new-prop-name').value.trim()||'新しい物件';
   const d=loadData();
-  const p={id:'p'+Date.now(),name,type:'kodatate',checks:{},memo:{}};
-  d.props.push(p);d.current=p.id;
-  saveData(d);
+  const p={id:'p'+Date.now(),name,type:'kodatate',checks:{},checkMemos:{},memo:{},photos:[]};
+  d.props.push(p);d.current=p.id;saveData(d);
   propType='kodatate';
-  renderPropSelect();
-  renderChecklist();
-  renderMemo();
-  renderScore();
-  renderPropList();
-  closeModal();
-  showTab(1);
+  renderPropSelect();renderChecklist();renderMemo();renderPhotos();renderScore();renderPropList();
+  closeModal();showTab(1);
 }
 
 // ============================================================
@@ -374,8 +368,8 @@ function showTab(i){
   currentTab=i;
   document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
   document.querySelectorAll('.panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
-  if(i===3) renderScore();
-  if(i===4) renderPropList();
+  if(i===4) renderScore();
+  if(i===5) renderPropList();
   window.scrollTo(0,0);
 }
 
@@ -396,6 +390,7 @@ function setType(t){
 function renderChecklist(){
   const p=currentProp();
   const checks=p?p.checks:{};
+  const checkMemos=p?p.checkMemos||{}:{};
   const allChecks=propType==='ittou'?[...CHECKS_KODATATE,...CHECKS_ITTOU]:CHECKS_KODATATE;
   const grouped={};
   allChecks.forEach(c=>{if(!grouped[c.cat])grouped[c.cat]=[];grouped[c.cat].push(c);});
@@ -408,17 +403,31 @@ function renderChecklist(){
     grouped[cat].forEach(c=>{
       const done=checks[c.id]?'checked':'';
       const warnBadge=c.warn?'<span class="warn-badge">⚠️ 要注意</span>':'';
-      html+='<div class="chk-item'+(done?' checked':'')+(c.warn?' warn':'')+'" onclick="toggleCheck(\''+c.id+'\')">'
+      const memoVal=(checkMemos[c.id]||'').replace(/"/g,'&quot;');
+      html+='<div class="chk-item'+(done?' checked':'')+(c.warn?' warn':'')+(done?' checked':'')+'" id="item-'+c.id+'">'
+        +'<div class="chk-top" onclick="toggleCheck(\''+c.id+'\')">'
         +'<div class="chk-num">'+c.num+'</div>'
         +'<div class="chk-box"><span class="chk-check">✓</span></div>'
         +'<div class="chk-body">'
         +'<div class="chk-title">'+c.title+warnBadge+'</div>'
         +'<div class="chk-desc">'+c.desc+'</div>'
-        +'</div></div>';
+        +'</div></div>'
+        +'<div class="chk-memo-wrap">'
+        +'<div class="chk-memo-hint">📝 '+c.hint+'</div>'
+        +'<textarea class="chk-memo" rows="1" placeholder="ここにメモ..." oninput="saveCheckMemo(\''+c.id+'\',this.value);autoResize(this)">'+memoVal+'</textarea>'
+        +'</div>'
+        +'</div>';
     });
     html+='</div></div>';
   });
   document.getElementById('checklist-area').innerHTML=html;
+  // auto resize all textareas
+  document.querySelectorAll('.chk-memo').forEach(el=>autoResize(el));
+}
+
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=(el.scrollHeight)+'px';
 }
 
 function toggleCheck(id){
@@ -426,22 +435,32 @@ function toggleCheck(id){
     if(!p.checks)p.checks={};
     p.checks[id]=!p.checks[id];
   });
-  renderChecklist();
-  if(currentTab===3) renderScore();
+  const item=document.getElementById('item-'+id);
+  if(item){
+    const p=currentProp();
+    item.classList.toggle('checked',!!(p&&p.checks[id]));
+  }
+  if(currentTab===4) renderScore();
+}
+
+function saveCheckMemo(id,val){
+  updateCurrentProp(p=>{
+    if(!p.checkMemos)p.checkMemos={};
+    p.checkMemos[id]=val;
+  });
 }
 
 // ============================================================
-// メモ
+// 物件メモ
 // ============================================================
 function renderMemo(){
   const p=currentProp();
-  const memo=p?p.memo:{};
+  const memo=p?p.memo||{}:{};
   ['name','price','rent','reform','viewers','seller','reason','history','concern','offer'].forEach(k=>{
     const el=document.getElementById('m-'+k);
     if(el) el.value=memo[k]||'';
   });
 }
-
 function saveMemo(){
   updateCurrentProp(p=>{
     if(!p.memo)p.memo={};
@@ -449,7 +468,6 @@ function saveMemo(){
       const el=document.getElementById('m-'+k);
       if(el) p.memo[k]=el.value;
     });
-    // 物件名を更新
     const nameEl=document.getElementById('m-name');
     if(nameEl&&nameEl.value.trim()) p.name=nameEl.value.trim();
   });
@@ -457,11 +475,130 @@ function saveMemo(){
 }
 
 // ============================================================
-// 判定・スコア
+// 写真
+// ============================================================
+function renderPhotos(){
+  const p=currentProp();
+  const photos=p?p.photos||[]:[];
+  let html='';
+  photos.forEach((src,i)=>{
+    html+='<div class="photo-cell">'
+      +'<img src="'+src+'" onclick="viewPhoto(\''+i+'\')">'
+      +'<button class="photo-del" onclick="deletePhoto('+i+')">✕</button>'
+      +'</div>';
+  });
+  // 追加ボタン
+  html+='<div class="photo-cell photo-add" onclick="document.getElementById(\'photo-input\').click()">'
+    +'<span>＋</span>'
+    +'<span class="photo-add-label">写真を追加</span>'
+    +'</div>';
+  document.getElementById('photo-grid').innerHTML=html;
+}
+
+function addPhotos(input){
+  const files=Array.from(input.files);
+  let loaded=0;
+  const p=currentProp();
+  const currentCount=(p&&p.photos)?p.photos.length:0;
+  const remaining=20-currentCount;
+  const toLoad=files.slice(0,remaining);
+  if(!toLoad.length){alert('写真は最大20枚まで保存できます');return;}
+  toLoad.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      // 圧縮
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        const MAX=800;
+        let w=img.width,h=img.height;
+        if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+        if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        const compressed=canvas.toDataURL('image/jpeg',0.7);
+        updateCurrentProp(p=>{
+          if(!p.photos)p.photos=[];
+          p.photos.push(compressed);
+        });
+        loaded++;
+        if(loaded===toLoad.length) renderPhotos();
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value='';
+}
+
+function deletePhoto(i){
+  if(!confirm('この写真を削除しますか？')) return;
+  updateCurrentProp(p=>{if(p.photos)p.photos.splice(i,1);});
+  renderPhotos();
+}
+
+function viewPhoto(i){
+  const p=currentProp();
+  if(!p||!p.photos) return;
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:999;display:flex;align-items:center;justify-content:center;cursor:pointer';
+  overlay.innerHTML='<img src="'+p.photos[i]+'" style="max-width:95%;max-height:90vh;border-radius:8px">';
+  overlay.onclick=()=>document.body.removeChild(overlay);
+  document.body.appendChild(overlay);
+}
+
+// ============================================================
+// メールで送る
+// ============================================================
+function shareReport(){
+  const p=currentProp();
+  if(!p){alert('物件が選択されていません');return;}
+  const memo=p.memo||{};
+  const checks=p.checks||{};
+  const checkMemos=p.checkMemos||{};
+  const allChecks=p.type==='ittou'?[...CHECKS_KODATATE,...CHECKS_ITTOU]:CHECKS_KODATATE;
+  const done=allChecks.filter(c=>checks[c.id]).length;
+  const pct=allChecks.length?Math.round(done/allChecks.length*100):0;
+
+  let body='【内覧チェックリスト 報告】\n';
+  body+='物件名：'+(memo.name||p.name)+'\n';
+  body+='売値：'+(memo.price||'未記入')+'\n';
+  body+='想定家賃：'+(memo.rent||'未記入')+'\n';
+  body+='修繕費概算：'+(memo.reform||'未記入')+'\n';
+  body+='指値金額：'+(memo.offer||'未記入')+'\n';
+  body+='チェック完了率：'+pct+'% ('+done+'/'+allChecks.length+'項目)\n\n';
+
+  body+='■ チェック結果\n';
+  const catLabels={water:'水回り',struct:'構造・外観',equip:'設備・法令',extra:'一棟物追加'};
+  const catOrder=['water','struct','equip','extra'];
+  const grouped={};
+  allChecks.forEach(c=>{if(!grouped[c.cat])grouped[c.cat]=[];grouped[c.cat].push(c);});
+  catOrder.forEach(cat=>{
+    if(!grouped[cat]) return;
+    body+='▼'+catLabels[cat]+'\n';
+    grouped[cat].forEach(c=>{
+      const ok=checks[c.id]?'✅':'⬜';
+      const m=checkMemos[c.id]?'  →'+checkMemos[c.id]:'';
+      body+=ok+' No.'+c.num+' '+c.title+m+'\n';
+    });
+    body+='\n';
+  });
+
+  if(memo.concern) body+='■ 気になる点\n'+memo.concern+'\n\n';
+  if(memo.history) body+='■ 修繕履歴\n'+memo.history+'\n\n';
+  body+='---\n猿でもわかる 内覧チェックリスト\n';
+
+  const subject=encodeURIComponent('内覧報告：'+(memo.name||p.name));
+  const bodyEnc=encodeURIComponent(body);
+  window.location.href='mailto:?subject='+subject+'&body='+bodyEnc;
+}
+
+// ============================================================
+// 判定
 // ============================================================
 function renderScore(){
   const p=currentProp();
-  const checks=p?p.checks:{};
+  const checks=p?p.checks||{}:{};
   const allChecks=propType==='ittou'?[...CHECKS_KODATATE,...CHECKS_ITTOU]:CHECKS_KODATATE;
   const total=allChecks.length;
   const done=allChecks.filter(c=>checks[c.id]).length;
@@ -471,44 +608,34 @@ function renderScore(){
   document.getElementById('score-bar').style.width=pct+'%';
 
   let judge,cls;
-  if(pct>=90){judge='✅ 確認完了！判断できる状態です';cls='judge-A';}
+  if(pct>=90){judge='✅ 確認完了！判断できる状態';cls='judge-A';}
   else if(pct>=60){judge='🔶 あと少し！残りも確認しよう';cls='judge-B';}
-  else if(pct>=30){judge='🔴 チェック不足。重要項目を先に確認';cls='judge-C';}
-  else {judge='⚪ まだチェックが始まっていません';cls='judge-D';}
-
+  else if(pct>=30){judge='🔴 チェック不足。重要項目を先に';cls='judge-C';}
+  else{judge='⚪ まだ未チェックです';cls='judge-D';}
   const badge=document.getElementById('judge-badge');
-  badge.textContent=judge;
-  badge.className='judge-badge '+cls;
+  badge.textContent=judge;badge.className='judge-badge '+cls;
 
-  // カテゴリ別
-  const catInfo=[
-    {cat:'water',label:'💧 水回り'},
-    {cat:'struct',label:'🏠 構造・外観'},
-    {cat:'equip',label:'⚙️ 設備・法令'},
-  ];
+  const catInfo=[{cat:'water',label:'💧 水回り'},{cat:'struct',label:'🏠 構造・外観'},{cat:'equip',label:'⚙️ 設備・法令'}];
   if(propType==='ittou') catInfo.push({cat:'extra',label:'🏢 一棟物 追加'});
 
-  let detailHTML='<div style="font-size:13px;font-weight:700;color:#555;margin-bottom:8px">カテゴリ別 進捗</div>';
+  let dHTML='<div style="font-size:13px;font-weight:700;color:#555;margin-bottom:8px">カテゴリ別 進捗</div>';
   catInfo.forEach(({cat,label})=>{
     const items=allChecks.filter(c=>c.cat===cat);
-    const d=items.filter(c=>checks[c.id]).length;
-    const p2=items.length?Math.round(d/items.length*100):0;
-    detailHTML+=`<div class="score-row"><div class="score-row-label">${label}</div><div class="score-row-val">${d}/${items.length} (${p2}%)</div></div>`;
+    const d2=items.filter(c=>checks[c.id]).length;
+    const p2=items.length?Math.round(d2/items.length*100):0;
+    dHTML+='<div class="score-row"><div>'+label+'</div><div class="score-row-val">'+d2+'/'+items.length+' ('+p2+'%)</div></div>';
   });
-  document.getElementById('score-detail').innerHTML=detailHTML;
+  document.getElementById('score-detail').innerHTML=dHTML;
 
-  // 要注意項目の未確認リスト
   const warnUnchecked=allChecks.filter(c=>c.warn&&!checks[c.id]);
-  let warnHTML='';
+  let wHTML='';
   if(warnUnchecked.length){
-    warnHTML='<div style="font-size:13px;font-weight:700;color:#c62828;margin-bottom:8px">⚠️ 未確認の要注意項目</div>';
-    warnUnchecked.forEach(c=>{
-      warnHTML+=`<div class="score-row"><div class="score-row-label" style="color:#c62828">No.${c.num} ${c.title}</div></div>`;
-    });
-  } else if(done>0) {
-    warnHTML='<div style="color:#2e7d32;font-size:13px;font-weight:700">✅ すべての要注意項目を確認済みです！</div>';
+    wHTML='<div style="font-size:13px;font-weight:700;color:#c62828;margin-bottom:8px">⚠️ 未確認の要注意項目</div>';
+    warnUnchecked.forEach(c=>{wHTML+='<div class="score-row"><div style="color:#c62828">No.'+c.num+' '+c.title+'</div></div>';});
+  } else if(done>0){
+    wHTML='<div style="color:#2e7d32;font-weight:700">✅ すべての要注意項目を確認済み！</div>';
   }
-  document.getElementById('warn-summary').innerHTML=warnHTML;
+  document.getElementById('warn-summary').innerHTML=wHTML;
 }
 
 // ============================================================
@@ -526,13 +653,15 @@ function renderPropList(){
       const relevant=p.type==='ittou'?allChecks:CHECKS_KODATATE;
       const done=relevant.filter(c=>checks[c.id]).length;
       const pct=relevant.length?Math.round(done/relevant.length*100):0;
-      const priceInfo=p.memo&&p.memo.price?'<div class="prop-card-sub">売値：'+p.memo.price+'</div>':'';
       const badge=p.type==='ittou'?'<span class="ittoubadge">一棟</span>':'';
+      const priceInfo=p.memo&&p.memo.price?'<div class="prop-card-sub">売値：'+p.memo.price+'</div>':'';
+      const photoCount=(p.photos||[]).length;
+      const photoInfo=photoCount?'<div class="prop-card-sub">📸 '+photoCount+'枚</div>':'';
       html+='<div class="prop-card" onclick="switchToProp(\''+p.id+'\')">'
         +'<div>'
         +'<div class="prop-card-name">'+p.name+badge+'</div>'
-        +'<div class="prop-card-sub">チェック '+done+'/'+relevant.length+' 項目 完了</div>'
-        +priceInfo
+        +'<div class="prop-card-sub">チェック '+done+'/'+relevant.length+' 項目</div>'
+        +priceInfo+photoInfo
         +'</div>'
         +'<div style="display:flex;align-items:center;gap:8px">'
         +'<div class="prop-card-score">'+pct+'%</div>'
@@ -545,16 +674,12 @@ function renderPropList(){
 }
 
 function switchToProp(id){
-  const d=loadData();
-  d.current=id;
-  saveData(d);
+  const d=loadData();d.current=id;saveData(d);
   renderPropSelect();
-  const p=currentProp();
-  if(p) propType=p.type||'kodatate';
-  renderChecklist();
-  renderMemo();
-  renderScore();
-  renderPropList();
+  const p=currentProp();if(p) propType=p.type||'kodatate';
+  document.getElementById('type-kodatate').classList.toggle('active',propType==='kodatate');
+  document.getElementById('type-ittou').classList.toggle('active',propType==='ittou');
+  renderChecklist();renderMemo();renderPhotos();renderScore();renderPropList();
   showTab(1);
 }
 
@@ -565,12 +690,8 @@ function deleteProp(id){
   if(d.current===id) d.current=d.props.length?d.props[0].id:null;
   saveData(d);
   renderPropSelect();
-  const p=currentProp();
-  if(p) propType=p.type||'kodatate';
-  renderChecklist();
-  renderMemo();
-  renderScore();
-  renderPropList();
+  const p=currentProp();if(p) propType=p.type||'kodatate';
+  renderChecklist();renderMemo();renderPhotos();renderScore();renderPropList();
 }
 
 init();
