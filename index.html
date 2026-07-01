@@ -233,6 +233,22 @@ textarea.memo-input{resize:vertical;min-height:60px}
   <button class="action-btn" style="margin-top:4px" onclick="openNewPropModal()">＋ 新しい物件を追加</button>
 </div>
 
+<!-- レポートモーダル -->
+<div class="modal-overlay" id="report-modal">
+  <div class="modal" style="width:94vw;max-width:560px;max-height:90vh;overflow-y:auto">
+    <div class="modal-title">📧 メールで送る</div>
+    <div style="font-size:12px;color:#888;margin-bottom:8px">件名</div>
+    <input type="text" id="report-subject" style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:13px;margin-bottom:10px">
+    <div style="font-size:12px;color:#888;margin-bottom:4px">本文（タップして選択 → コピーできます）</div>
+    <textarea id="report-body" style="width:100%;height:260px;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:12px;font-family:monospace;resize:none;line-height:1.6;background:#fafafa"></textarea>
+    <div id="copy-status" style="font-size:12px;min-height:20px;margin:6px 0 10px;text-align:center"></div>
+    <button class="action-btn" onclick="copyReport()">📋 全文をコピーする</button>
+    <button class="action-btn teal" onclick="openMailApp()" style="margin-bottom:6px">✉️ メールアプリで開く</button>
+    <p style="font-size:11px;color:#aaa;text-align:center;margin-bottom:10px">※「全文をコピー」→ メールアプリを開いて本文に貼り付けると確実です</p>
+    <button class="action-btn sub" onclick="closeReportModal()">閉じる</button>
+  </div>
+</div>
+
 <!-- 新規物件モーダル -->
 <div class="modal-overlay" id="new-prop-modal">
   <div class="modal">
@@ -550,25 +566,37 @@ function viewPhoto(i){
 // ============================================================
 // メールで送る
 // ============================================================
-function shareReport(){
+function buildReportText(){
   const p=currentProp();
-  if(!p){alert('物件が選択されていません');return;}
+  if(!p) return {subject:'',body:''};
   const memo=p.memo||{};
   const checks=p.checks||{};
   const checkMemos=p.checkMemos||{};
   const allChecks=p.type==='ittou'?[...CHECKS_KODATATE,...CHECKS_ITTOU]:CHECKS_KODATATE;
   const done=allChecks.filter(c=>checks[c.id]).length;
   const pct=allChecks.length?Math.round(done/allChecks.length*100):0;
+  const warnUnchecked=allChecks.filter(c=>c.warn&&!checks[c.id]);
 
-  let body='【内覧チェックリスト 報告】\n';
-  body+='物件名：'+(memo.name||p.name)+'\n';
-  body+='売値：'+(memo.price||'未記入')+'\n';
-  body+='想定家賃：'+(memo.rent||'未記入')+'\n';
-  body+='修繕費概算：'+(memo.reform||'未記入')+'\n';
-  body+='指値金額：'+(memo.offer||'未記入')+'\n';
-  body+='チェック完了率：'+pct+'% ('+done+'/'+allChecks.length+'項目)\n\n';
+  let body='━━━━━━━━━━━━━━━━━━━━━\n';
+  body+='🐒 内覧チェックリスト 報告書\n';
+  body+='━━━━━━━━━━━━━━━━━━━━━\n\n';
+  body+='【物件情報】\n';
+  body+='物件名　：'+(memo.name||p.name)+'\n';
+  if(memo.price)   body+='売値　　：'+memo.price+'\n';
+  if(memo.rent)    body+='想定家賃：'+memo.rent+'\n';
+  if(memo.reform)  body+='修繕費　：'+memo.reform+'\n';
+  if(memo.viewers) body+='内覧者数：'+memo.viewers+'\n';
+  if(memo.seller)  body+='売主状況：'+memo.seller+'\n';
+  if(memo.reason)  body+='売却理由：'+memo.reason+'\n';
+  if(memo.offer)   body+='指値金額：'+memo.offer+'\n';
+  body+='\nチェック完了率：'+pct+'% ('+done+'/'+allChecks.length+'項目)\n';
 
-  body+='■ チェック結果\n';
+  if(warnUnchecked.length){
+    body+='\n【⚠️ 未確認の要注意項目】\n';
+    warnUnchecked.forEach(c=>{body+='  ・No.'+c.num+' '+c.title+'\n';});
+  }
+
+  body+='\n【チェック結果】\n';
   const catLabels={water:'水回り',struct:'構造・外観',equip:'設備・法令',extra:'一棟物追加'};
   const catOrder=['water','struct','equip','extra'];
   const grouped={};
@@ -578,20 +606,54 @@ function shareReport(){
     body+='▼'+catLabels[cat]+'\n';
     grouped[cat].forEach(c=>{
       const ok=checks[c.id]?'✅':'⬜';
-      const m=checkMemos[c.id]?'  →'+checkMemos[c.id]:'';
-      body+=ok+' No.'+c.num+' '+c.title+m+'\n';
+      body+=ok+' No.'+c.num+' '+c.title+'\n';
+      if(checkMemos[c.id]) body+='   →'+checkMemos[c.id]+'\n';
     });
     body+='\n';
   });
 
-  if(memo.concern) body+='■ 気になる点\n'+memo.concern+'\n\n';
-  if(memo.history) body+='■ 修繕履歴\n'+memo.history+'\n\n';
-  body+='---\n猿でもわかる 内覧チェックリスト\n';
+  if(memo.concern) body+='【気になる点】\n'+memo.concern+'\n\n';
+  if(memo.history) body+='【修繕履歴】\n'+memo.history+'\n\n';
+  body+='━━━━━━━━━━━━━━━━━━━━━\n猿でもわかる 内覧チェックリスト\n';
 
-  const subject=encodeURIComponent('内覧報告：'+(memo.name||p.name));
-  const bodyEnc=encodeURIComponent(body);
-  window.location.href='mailto:?subject='+subject+'&body='+bodyEnc;
+  return {subject:'内覧報告：'+(memo.name||p.name), body};
 }
+
+function shareReport(){
+  const p=currentProp();
+  if(!p){alert('物件が選択されていません');return;}
+  const {subject,body}=buildReportText();
+  document.getElementById('report-subject').value=subject;
+  document.getElementById('report-body').value=body;
+  document.getElementById('copy-status').textContent='';
+  document.getElementById('report-modal').classList.add('open');
+}
+
+function copyReport(){
+  const subject=document.getElementById('report-subject').value;
+  const body=document.getElementById('report-body').value;
+  const full='件名：'+subject+'\n\n'+body;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(full).then(()=>{
+      document.getElementById('copy-status').textContent='✅ コピー完了！メールアプリに貼り付けてください';
+      document.getElementById('copy-status').style.color='#2e7d32';
+    });
+  } else {
+    const ta=document.getElementById('report-body');
+    ta.select();document.execCommand('copy');
+    document.getElementById('copy-status').textContent='✅ コピー完了！';
+    document.getElementById('copy-status').style.color='#2e7d32';
+  }
+}
+
+function openMailApp(){
+  const subject=encodeURIComponent(document.getElementById('report-subject').value);
+  const body=document.getElementById('report-body').value;
+  const short=body.length>1800?body.substring(0,1800)+'...\n（全文はコピーしてご確認ください）':body;
+  window.location.href='mailto:?subject='+subject+'&body='+encodeURIComponent(short);
+}
+
+function closeReportModal(){document.getElementById('report-modal').classList.remove('open');}
 
 // ============================================================
 // 判定
