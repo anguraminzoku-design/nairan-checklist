@@ -130,7 +130,8 @@ textarea.memo-input{resize:vertical;min-height:60px}
   <button class="tab" onclick="showTab(2)">📝 メモ</button>
   <button class="tab" onclick="showTab(3)">📸 写真</button>
   <button class="tab" onclick="showTab(4)">📊 判定</button>
-  <button class="tab" onclick="showTab(5)">🗂️ 一覧</button>
+  <button class="tab" onclick="showTab(5)">📧 メール</button>
+  <button class="tab" onclick="showTab(6)">🗂️ 一覧</button>
 </div>
 
 <!-- パネル0: 準備 -->
@@ -227,26 +228,27 @@ textarea.memo-input{resize:vertical;min-height:60px}
   <button class="action-btn teal" onclick="shareReport()">📧 メールで送る</button>
 </div>
 
-<!-- パネル5: 物件一覧 -->
+<!-- パネル5: メール -->
 <div class="panel" id="panel-5">
-  <div id="prop-list"></div>
-  <button class="action-btn" style="margin-top:4px" onclick="openNewPropModal()">＋ 新しい物件を追加</button>
+  <div class="sec">
+    <div class="sec-h" style="background:#00838f">📧 メールで送る</div>
+    <div class="sec-b" style="padding:12px">
+      <div style="font-size:12px;color:#888;margin-bottom:4px">件名</div>
+      <input type="text" id="report-subject" style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:13px;margin-bottom:12px;background:#fafafa">
+      <div style="font-size:12px;color:#888;margin-bottom:4px">本文</div>
+      <textarea id="report-body" style="width:100%;height:320px;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:12px;font-family:monospace;resize:none;line-height:1.6;background:#fafafa"></textarea>
+      <div id="copy-status" style="font-size:12px;min-height:20px;margin:8px 0;text-align:center;font-weight:700"></div>
+    </div>
+  </div>
+  <button class="action-btn" onclick="copyReport()">📋 全文をコピーする</button>
+  <button class="action-btn teal" onclick="openMailApp()">✉️ メールアプリで開く</button>
+  <p style="font-size:11px;color:#aaa;text-align:center;margin-top:4px">「全文をコピー」→ メールアプリに貼り付けると確実です</p>
 </div>
 
-<!-- レポートモーダル -->
-<div class="modal-overlay" id="report-modal">
-  <div class="modal" style="width:94vw;max-width:560px;max-height:90vh;overflow-y:auto">
-    <div class="modal-title">📧 メールで送る</div>
-    <div style="font-size:12px;color:#888;margin-bottom:8px">件名</div>
-    <input type="text" id="report-subject" style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:13px;margin-bottom:10px">
-    <div style="font-size:12px;color:#888;margin-bottom:4px">本文（タップして選択 → コピーできます）</div>
-    <textarea id="report-body" style="width:100%;height:260px;border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-size:12px;font-family:monospace;resize:none;line-height:1.6;background:#fafafa"></textarea>
-    <div id="copy-status" style="font-size:12px;min-height:20px;margin:6px 0 10px;text-align:center"></div>
-    <button class="action-btn" onclick="copyReport()">📋 全文をコピーする</button>
-    <button class="action-btn teal" onclick="openMailApp()" style="margin-bottom:6px">✉️ メールアプリで開く</button>
-    <p style="font-size:11px;color:#aaa;text-align:center;margin-bottom:10px">※「全文をコピー」→ メールアプリを開いて本文に貼り付けると確実です</p>
-    <button class="action-btn sub" onclick="closeReportModal()">閉じる</button>
-  </div>
+<!-- パネル6: 物件一覧 -->
+<div class="panel" id="panel-6">
+  <div id="prop-list"></div>
+  <button class="action-btn" style="margin-top:4px" onclick="openNewPropModal()">＋ 新しい物件を追加</button>
 </div>
 
 <!-- 新規物件モーダル -->
@@ -385,8 +387,19 @@ function showTab(i){
   document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
   document.querySelectorAll('.panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
   if(i===4) renderScore();
-  if(i===5) renderPropList();
+  if(i===5) renderEmailPanel();
+  if(i===6) renderPropList();
   window.scrollTo(0,0);
+}
+
+function renderEmailPanel(){
+  const {subject,body}=buildReportText();
+  const subEl=document.getElementById('report-subject');
+  const bodyEl=document.getElementById('report-body');
+  if(subEl) subEl.value=subject;
+  if(bodyEl) bodyEl.value=body;
+  const st=document.getElementById('copy-status');
+  if(st) st.textContent='';
 }
 
 // ============================================================
@@ -620,13 +633,7 @@ function buildReportText(){
 }
 
 function shareReport(){
-  const p=currentProp();
-  if(!p){alert('物件が選択されていません');return;}
-  const {subject,body}=buildReportText();
-  document.getElementById('report-subject').value=subject;
-  document.getElementById('report-body').value=body;
-  document.getElementById('copy-status').textContent='';
-  document.getElementById('report-modal').classList.add('open');
+  showTab(5);
 }
 
 function copyReport(){
